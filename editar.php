@@ -1,6 +1,8 @@
 <?php
 include_once "conexao.php";
 
+$message = '';
+
 try {
     // Filtra e sanitiza os dados de entrada
     $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
@@ -15,13 +17,23 @@ try {
         $update->bindParam(':login', $login);
         $update->execute();
 
+        $message = "Usuário atualizado com sucesso!";
         header("Location: index.php");
         exit;
     } else {
-        echo "Dados inválidos.";
+        $message = "Dados inválidos.";
     }
 
 } catch (PDOException $e) {
-    echo 'Erro: ' . $e->getMessage();
+    $message = 'Erro: ' . $e->getMessage();
 }
 ?>
+<link rel="stylesheet" href="styles.css">
+
+<div class="container">
+    <h1>Atualizar Usuário</h1>
+    <?php if ($message): ?>
+        <p class="message"><?php echo $message; ?></p>
+    <?php endif; ?>
+    <a class="btn" href="index.php">Voltar</a> <!-- Botão Voltar -->
+</div>

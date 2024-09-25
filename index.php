@@ -5,24 +5,29 @@ try {
     // Executa a instrução SQL para selecionar todos os usuários
     $consulta = $conectar->query("SELECT * FROM login");
 
-    echo "<a href='formCadastro.php'>Novo Cadastro</a><br><br>Listagem de Usuários";
-    echo "<table border='1'><tr><td>Nome</td><td>Login</td><td>Ações</td></tr>";
+    echo "<link rel='stylesheet' href='styles.css'>"; // Inclui o CSS
+    echo "<div class='container'>";
+    echo "<h1>Listagem de Usuários</h1>";
+    echo "<a class='btn' href='formCadastro.php'>Novo Cadastro</a><br><br>";
+    echo "<table>";
+    echo "<thead><tr><th>Nome</th><th>Login</th><th>Ações</th></tr></thead><tbody>";
 
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
         echo "<tr>
                 <td>{$linha['nome']}</td>
                 <td>{$linha['login']}</td>
                 <td>
-                    <a href='formEditar.php?id={$linha['id']}'>Editar</a> - 
-                    <a href='excluir.php?id={$linha['id']}'>Excluir</a>
+                    <a class='btn-edit' href='formEditar.php?id={$linha['id']}'>Editar</a> - 
+                    <a class='btn-delete' href='excluir.php?id={$linha['id']}'>Excluir</a>
                 </td>
               </tr>";
     }
 
-    echo "</table>";
-    echo $consulta->rowCount() . " Registros Exibidos";
+    echo "</tbody></table>";
+    echo "<p>{$consulta->rowCount()} Registros Exibidos</p>";
+    echo "</div>";
 
 } catch (PDOException $e) {
     echo 'Erro: ' . $e->getMessage();
 }
-
+?>
